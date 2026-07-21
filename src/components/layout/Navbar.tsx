@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 
@@ -15,6 +17,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("features");
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,8 +80,8 @@ export default function Navbar() {
           }`}
         >
           {/* Logo */}
-          <a
-            href="#"
+          <Link
+            href="/"
             aria-label="Go to the top of the BucksWise homepage"
             className="group flex items-center gap-3"
           >
@@ -96,42 +99,59 @@ export default function Navbar() {
             <h1 className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-3xl font-extrabold text-transparent">
               BucksWise
             </h1>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center gap-10 md:flex">
-            {navItems.map((item) => {
-              const active = activeSection === item.id;
+          <div className="hidden items-center gap-8 md:flex">
+  <Link
+    href="/"
+    className={`font-medium transition ${
+      pathname === "/"
+        ? "text-indigo-600"
+        : "text-slate-600 hover:text-indigo-600"
+    }`}
+  >
+    Home
+  </Link>
 
-              return (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`relative py-1 text-[15px] font-medium transition-colors duration-300 ${
-                    active
-                      ? "text-indigo-600"
-                      : "text-slate-600 hover:text-indigo-600"
-                  }`}
-                >
-                  {item.label}
+  <Link
+    href="/dashboard"
+    className={`font-medium transition ${
+      pathname === "/dashboard"
+        ? "text-indigo-600"
+        : "text-slate-600 hover:text-indigo-600"
+    }`}
+  >
+    Dashboard
+  </Link>
 
-                  <motion.span
-                    layoutId="navbar-indicator"
-                    aria-hidden="true"
-                    className={`absolute -bottom-2 left-0 h-[2px] rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 ${
-                      active ? "w-full" : "w-0"
-                    }`}
-                    transition={{
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 30,
-                    }}
-                  />
-                </a>
-              );
-            })}
-          </div>
+  {pathname === "/" &&
+    navItems.map((item) => {
+      const active = activeSection === item.id;
+
+      return (
+        <a
+          key={item.id}
+          href={item.href}
+          aria-current={active ? "page" : undefined}
+          className={`relative py-1 text-[15px] font-medium transition-colors duration-300 ${
+            active
+              ? "text-indigo-600"
+              : "text-slate-600 hover:text-indigo-600"
+          }`}
+        >
+          {item.label}
+
+          <motion.span
+            layoutId="navbar-indicator"
+            className={`absolute -bottom-2 left-0 h-[2px] rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 ${
+              active ? "w-full" : "w-0"
+            }`}
+          />
+        </a>
+      );
+    })}
+</div>
 
           {/* CTA + Mobile */}
           <div className="flex items-center gap-3">
@@ -206,7 +226,23 @@ export default function Navbar() {
               className="mx-auto mt-4 max-w-6xl rounded-3xl border border-white/70 bg-white/90 p-6 shadow-2xl backdrop-blur-2xl md:hidden"
             >
               <div className="flex flex-col gap-5">
-                {navItems.map((item) => (
+                <Link
+  href="/"
+  onClick={() => setMobileOpen(false)}
+  className="font-medium text-slate-700 hover:text-indigo-600"
+>
+  Home
+</Link>
+
+<Link
+  href="/dashboard"
+  onClick={() => setMobileOpen(false)}
+  className="font-medium text-slate-700 hover:text-indigo-600"
+>
+  Dashboard
+</Link>
+                {pathname === "/" &&
+                navItems.map((item) => (
                   <a
                     key={item.id}
                     href={item.href}

@@ -10,7 +10,16 @@ import {
   Tooltip,
 } from "recharts";
 
-const data = [
+export interface SpendingData {
+  month: string;
+  spending: number;
+}
+
+interface SpendingChartProps {
+  data?: SpendingData[];
+}
+
+const defaultData: SpendingData[] = [
   { month: "Jan", spending: 2200 },
   { month: "Feb", spending: 1800 },
   { month: "Mar", spending: 2600 },
@@ -19,7 +28,9 @@ const data = [
   { month: "Jun", spending: 2800 },
 ];
 
-export default function SpendingChart() {
+export default function SpendingChart({
+  data = defaultData,
+}: SpendingChartProps) {
   return (
     <section
       aria-labelledby="monthly-spending-heading"
@@ -35,15 +46,18 @@ export default function SpendingChart() {
           </p>
 
           <h3 className="mt-1 text-2xl font-bold text-slate-900">
-            $14,700
-          </h3>
+  ₹
+  {data
+    .reduce((total, item) => total + item.spending, 0)
+    .toLocaleString("en-IN")}
+</h3>
         </div>
 
         <div
-          aria-label="12 percent lower spending than last month"
+          aria-label="Monthly spending summary"
           className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-600"
         >
-          ↓ 12%
+          Live
         </div>
       </div>
 
@@ -113,13 +127,13 @@ export default function SpendingChart() {
               fontWeight: 600,
             }}
             formatter={(value) => [
-              `$${Number(value).toLocaleString()}`,
-              "Spent",
-            ]}
+  `₹${Number(value).toLocaleString("en-IN")}`,
+  "Spent",
+]}
           />
 
           <Area
-            type="monotone"
+            type="natural"
             dataKey="spending"
             stroke="#6366F1"
             strokeWidth={3}
