@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
+import BackToTop from "@/components/ui/BackToTop";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +16,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BucksWise",
-  description: "A modern personal finance management platform.",
+  title: {
+    default: "BucksWise",
+    template: "%s | BucksWise",
+  },
+  description:
+    "AI-powered personal finance platform to budget, save, invest, and make smarter financial decisions.",
 };
 
 export default function RootLayout({
@@ -25,9 +32,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-white text-slate-900">
+        <ScrollProgress />
+        <BackToTop />
         {children}
       </body>
     </html>

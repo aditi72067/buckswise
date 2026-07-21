@@ -1,17 +1,30 @@
+"use client";
+import FadeUp from "../components/animations/FadeUp";
+import Footer from "../components/layout/Footer";
+import FAQ from "../components/landing/FAQ";
+import Pricing from "../components/landing/Pricing";
+import Testimonials from "../components/landing/Testimonials";
+import Stats from "../components/landing/Stats";
+import HowItWorks from "../components/landing/HowItWorks";
+import Features from "../components/landing/Features";
+import Navbar from "../components/layout/Navbar";
+import Hero from "../components/landing/Hero";
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-white">
-      <h1 className="text-5xl font-bold text-blue-600">
-        BucksWise
-      </h1>
+    <>
+      <Navbar />
 
-      <p className="mt-4 text-lg text-gray-600">
-        Manage your money wisely.
-      </p>
-
-      <button className="mt-8 rounded-lg bg-blue-600 px-6 py-3 text-white transition hover:bg-blue-700">
-        Get Started
-      </button>
-    </main>
+      <FadeUp>
+      <Hero />
+      </FadeUp>
+      <Features />
+      <HowItWorks />
+      <Stats />
+      <Testimonials />
+      <Pricing />
+      <FAQ />
+      <Footer />
+    </>
   );
 }
