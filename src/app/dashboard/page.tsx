@@ -85,6 +85,8 @@ const [expenseToDelete, setExpenseToDelete] =
   useState<Expense | null>(null);
 
 const startEditing = (expense: Expense) => {
+  console.log("START EDIT", expense);
+
   setEditingExpense(expense);
   setEditModalOpen(true);
 };
@@ -482,6 +484,12 @@ const updateExpense = (
             })
           }
         />
+        <EditExpenseModal
+  open={editModalOpen}
+  expense={editingExpense}
+  onClose={closeEditor}
+  onSave={updateExpense}
+/>
 <DeleteExpenseModal
   open={deleteModalOpen}
   expense={expenseToDelete}
