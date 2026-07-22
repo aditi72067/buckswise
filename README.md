@@ -52,9 +52,27 @@ A modern personal finance tracker built with **Next.js 15**, **TypeScript**, and
 
 ## 📸 Screenshots
 
-> Screenshots will be added here.
+### Landing Page
+
+![Landing Page](./screenshots/landing.png)
 
 ---
+
+### Dashboard
+
+![Dashboard](./screenshots/dashboard.png)
+
+---
+
+### Add Expense
+
+![Add Expense](./screenshots/add-expense.png)
+
+---
+
+### Edit Expense
+
+![Edit Expense](./screenshots/edit-expense.png)
 
 ## 🚀 Installation
 
