@@ -124,6 +124,6 @@ export default function EditExpenseModal({
           </button>
         </div>
       </div>
-    </div>
+      </div>
   );
 }

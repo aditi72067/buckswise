@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardStats from "@/components/dashboard/DashboardStats";
 import EditExpenseModal from "@/components/dashboard/EditExpenseModal";
-import useExpenseEditor from "@/hooks/useExpenseEditor";
+import DeleteExpenseModal from "@/components/dashboard/DeleteExpenseModal";
 import AnalyticsCards from "@/components/dashboard/AnalyticsCards";
 import ExpenseSection from "@/components/dashboard/ExpenseSection";
 import RightSidebar from "@/components/dashboard/RightSidebar";
@@ -76,6 +76,12 @@ export default function DashboardPage() {
     useState("");
     const [editModalOpen, setEditModalOpen] = useState(false);
 const [editingExpense, setEditingExpense] =
+  useState<Expense | null>(null);
+
+  const [deleteModalOpen, setDeleteModalOpen] =
+  useState(false);
+
+const [expenseToDelete, setExpenseToDelete] =
   useState<Expense | null>(null);
 
 const startEditing = (expense: Expense) => {
@@ -280,6 +286,31 @@ const closeEditor = () => {
     )
   );
 };
+const openDeleteModal = (expense: Expense) => {
+  setExpenseToDelete(expense);
+  setDeleteModalOpen(true);
+};
+
+const closeDeleteModal = () => {
+  setExpenseToDelete(null);
+  setDeleteModalOpen(false);
+};
+
+const confirmDelete = () => {
+  if (!expenseToDelete) return;
+
+  deleteExpense(expenseToDelete.id);
+
+  setExpenseToDelete(null);
+  setDeleteModalOpen(false);
+
+  setToastMessage("Expense deleted successfully!");
+  setToastVisible(true);
+
+  setTimeout(() => {
+    setToastVisible(false);
+  }, 2500);
+};
 
 const updateExpense = (
   updatedExpense: Expense
@@ -394,7 +425,7 @@ const updateExpense = (
                 setCategory={setCategory}
                 setSortBy={setSortBy}
                 onAddExpense={addExpense}
-                onDeleteExpense={deleteExpense}
+                onDeleteExpense={openDeleteModal}
                 onEditExpense={startEditing}
               />
             </div>
@@ -451,11 +482,11 @@ const updateExpense = (
             })
           }
         />
-<EditExpenseModal
-  open={editModalOpen}
-  expense={editingExpense}
-  onClose={closeEditor}
-  onSave={updateExpense}
+<DeleteExpenseModal
+  open={deleteModalOpen}
+  expense={expenseToDelete}
+  onClose={closeDeleteModal}
+  onConfirm={confirmDelete}
 />
         <NotificationToast
           show={toastVisible}

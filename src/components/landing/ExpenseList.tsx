@@ -5,7 +5,7 @@ import { Pencil, Trash2 } from "lucide-react";
 
 interface ExpenseListProps {
   expenses: Expense[];
-  onDeleteExpense: (id: string) => void;
+  onDeleteExpense: (expense: Expense) => void;
   onEditExpense: (expense: Expense) => void;
 }
 
@@ -56,6 +56,7 @@ export default function ExpenseList({
                 ₹{expense.amount.toLocaleString()}
               </span>
 
+              {/* Edit */}
               <button
                 type="button"
                 onClick={() => onEditExpense(expense)}
@@ -65,9 +66,10 @@ export default function ExpenseList({
                 <Pencil size={18} />
               </button>
 
+              {/* Delete */}
               <button
                 type="button"
-                onClick={() => onDeleteExpense(expense.id)}
+                onClick={() => onDeleteExpense(expense)}
                 className="rounded-lg p-2 text-red-500 transition hover:bg-red-50"
                 aria-label={`Delete ${expense.title}`}
               >

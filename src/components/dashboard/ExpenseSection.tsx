@@ -22,7 +22,7 @@ interface ExpenseSectionProps {
   setSortBy: React.Dispatch<React.SetStateAction<string>>;
 
   onAddExpense: (expense: Expense) => void;
-  onDeleteExpense: (id: string) => void;
+  onDeleteExpense: (expense: Expense) => void;
   onEditExpense: (expense: Expense) => void;
 }
 
