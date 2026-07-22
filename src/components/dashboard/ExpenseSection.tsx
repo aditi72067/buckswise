@@ -23,6 +23,7 @@ interface ExpenseSectionProps {
 
   onAddExpense: (expense: Expense) => void;
   onDeleteExpense: (id: string) => void;
+  onEditExpense: (expense: Expense) => void;
 }
 
 export default function ExpenseSection({
@@ -40,6 +41,7 @@ export default function ExpenseSection({
 
   onAddExpense,
   onDeleteExpense,
+  onEditExpense,
 }: ExpenseSectionProps) {
   return (
     <div className="space-y-6">
@@ -66,10 +68,7 @@ export default function ExpenseSection({
               className="rounded-xl border border-slate-300 px-4 py-2 outline-none focus:border-indigo-500"
             >
               {categories.map((cat) => (
-                <option
-                  key={cat}
-                  value={cat}
-                >
+                <option key={cat} value={cat}>
                   {cat}
                 </option>
               ))}
@@ -80,24 +79,18 @@ export default function ExpenseSection({
               onChange={(e) => setSortBy(e.target.value)}
               className="rounded-xl border border-slate-300 px-4 py-2 outline-none focus:border-indigo-500"
             >
-              <option value="Latest">
-                Latest
-              </option>
-
-              <option value="Highest">
-                Highest
-              </option>
-
-              <option value="Lowest">
-                Lowest
-              </option>
+              <option value="Latest">Latest</option>
+              <option value="Highest">Highest</option>
+              <option value="Lowest">Lowest</option>
             </select>
           </div>
         </div>
-                  <ExpenseList
-            expenses={filteredExpenses}
-            onDeleteExpense={onDeleteExpense}
-          />
+
+        <ExpenseList
+          expenses={filteredExpenses}
+          onDeleteExpense={onDeleteExpense}
+          onEditExpense={onEditExpense}
+        />
       </div>
 
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">

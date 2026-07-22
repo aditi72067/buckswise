@@ -161,9 +161,10 @@ export default function DashboardPreview() {
 
       <div className="mt-6">
         <ExpenseList
-          expenses={expenses}
-          onDeleteExpense={deleteExpense}
-        />
+  expenses={expenses}
+  onDeleteExpense={() => {}}
+  onEditExpense={() => {}}
+/>
       </div>
 
       <div className="mt-7 overflow-hidden rounded-3xl border border-gray-100 bg-gradient-to-br from-white to-slate-50 p-2">

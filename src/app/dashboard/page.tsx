@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardStats from "@/components/dashboard/DashboardStats";
+import EditExpenseModal from "@/components/dashboard/EditExpenseModal";
+import useExpenseEditor from "@/hooks/useExpenseEditor";
 import AnalyticsCards from "@/components/dashboard/AnalyticsCards";
 import ExpenseSection from "@/components/dashboard/ExpenseSection";
 import RightSidebar from "@/components/dashboard/RightSidebar";
@@ -72,6 +74,19 @@ export default function DashboardPage() {
 
   const [toastMessage, setToastMessage] =
     useState("");
+    const [editModalOpen, setEditModalOpen] = useState(false);
+const [editingExpense, setEditingExpense] =
+  useState<Expense | null>(null);
+
+const startEditing = (expense: Expense) => {
+  setEditingExpense(expense);
+  setEditModalOpen(true);
+};
+
+const closeEditor = () => {
+  setEditingExpense(null);
+  setEditModalOpen(false);
+};
       useEffect(() => {
     const storedExpenses =
       localStorage.getItem("buckswise-expenses");
@@ -257,14 +272,33 @@ export default function DashboardPage() {
   };
 
   const deleteExpense = (
-    id: string
-  ) => {
-    setExpenses((prev) =>
-      prev.filter(
-        (expense) => expense.id !== id
-      )
-    );
-  };
+  id: string
+) => {
+  setExpenses((prev) =>
+    prev.filter(
+      (expense) => expense.id !== id
+    )
+  );
+};
+
+const updateExpense = (
+  updatedExpense: Expense
+) => {
+  setExpenses((prev) =>
+    prev.map((expense) =>
+      expense.id === updatedExpense.id
+        ? updatedExpense
+        : expense
+    )
+  );
+
+  setToastMessage("Expense updated successfully!");
+  setToastVisible(true);
+
+  setTimeout(() => {
+    setToastVisible(false);
+  }, 2500);
+};
 
   const exportCSV = () => {
     if (expenses.length === 0) return;
@@ -361,6 +395,7 @@ export default function DashboardPage() {
                 setSortBy={setSortBy}
                 onAddExpense={addExpense}
                 onDeleteExpense={deleteExpense}
+                onEditExpense={startEditing}
               />
             </div>
 
@@ -416,7 +451,12 @@ export default function DashboardPage() {
             })
           }
         />
-
+<EditExpenseModal
+  open={editModalOpen}
+  expense={editingExpense}
+  onClose={closeEditor}
+  onSave={updateExpense}
+/>
         <NotificationToast
           show={toastVisible}
           message={toastMessage}

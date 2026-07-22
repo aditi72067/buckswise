@@ -1,16 +1,18 @@
 "use client";
 
 import { Expense } from "@/types/expense";
-import { Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 
 interface ExpenseListProps {
   expenses: Expense[];
   onDeleteExpense: (id: string) => void;
+  onEditExpense: (expense: Expense) => void;
 }
 
 export default function ExpenseList({
   expenses,
   onDeleteExpense,
+  onEditExpense,
 }: ExpenseListProps) {
   if (expenses.length === 0) {
     return (
@@ -44,14 +46,24 @@ export default function ExpenseList({
               </h4>
 
               <p className="text-sm text-slate-500">
-                {expense.category} • {expense.date}
+                {expense.category} •{" "}
+                {new Date(expense.date).toLocaleDateString()}
               </p>
             </div>
 
-            <div className="flex items-center gap-4">
-              <span className="text-lg font-bold text-indigo-600">
+            <div className="flex items-center gap-2">
+              <span className="mr-2 text-lg font-bold text-indigo-600">
                 ₹{expense.amount.toLocaleString()}
               </span>
+
+              <button
+                type="button"
+                onClick={() => onEditExpense(expense)}
+                className="rounded-lg p-2 text-blue-600 transition hover:bg-blue-50"
+                aria-label={`Edit ${expense.title}`}
+              >
+                <Pencil size={18} />
+              </button>
 
               <button
                 type="button"
